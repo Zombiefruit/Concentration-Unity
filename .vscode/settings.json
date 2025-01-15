@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Concentration Game.sln"
+    "dotnet.defaultSolution": "Concentration-Unity.sln"
 }

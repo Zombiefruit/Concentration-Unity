@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="project://database/Assets/Tools/CardBuilder.uss?fileID=7433441132597879392&amp;guid=3133d6292b3e90f4cbbf4dcbf2354114&amp;type=3#CardBuilder" />
+	 <engine:VisualElement>
+        <engine:Label text="Card Builder" class="header" />
+        <engine:TextField name="CardNameField" label="Card Name" />
+        <engine:EnumField name="SuitField" label="Suit" />
+        <engine:IntegerField name="RankField" label="Rank" />
+        
+        <!-- Front Sprite Selector -->
+        <editor:ObjectField name="FrontSpriteField" label="Front Sprite" object-type="UnityEngine.Sprite" />
+
+        <!-- Back Sprite Selector -->
+        <editor:ObjectField name="BackSpriteField" label="Back Sprite" object-type="UnityEngine.Sprite" />
+        
+        <engine:Button name="SaveCardButton" text="Save Card" />
+    </engine:VisualElement>
+
+</engine:UXML>

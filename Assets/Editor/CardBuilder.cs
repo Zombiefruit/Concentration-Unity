@@ -1,10 +1,30 @@
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
+using Unity.AppUI.Core;
+using Unity.AppUI.UI;
 using UnityEngine.UIElements;
+using UnityEngine.UIElements.Experimental;
+using AnimationMode = Unity.AppUI.UI.AnimationMode;
+using Avatar = Unity.AppUI.UI.Avatar;
+using Button = Unity.AppUI.UI.Button;
+using Toggle = Unity.AppUI.UI.Toggle;
+using Dropdown = Unity.AppUI.UI.Dropdown;
+using TextField = Unity.AppUI.UI.TextField;
+using EnumField = Unity.AppUI.UI.EnumField;
+using MenuItem = UnityEditor.MenuItem;
+using IntegerField = Unity.AppUI.UI.IntField;
+// using ObjectField = Unity.AppUI.UI.UnityObject;
 
 public class CardBuilderEditor : EditorWindow
 {
+    private const string k_DefaultTheme = "Packages/com.unity.dt.app-ui/PackageResources/Styles/Themes/App UI.tss";
+    private string m_CurrentTheme = "dark";
+
+    private string m_CurrentScale = "medium";
+    private Dir m_CurrentLayoutDirection;
+    private string m_CurrentLocaleId = "en";
+
     // UI elements
     private TextField _cardNameField;
     private EnumField _suitField;
@@ -35,15 +55,60 @@ public class CardBuilderEditor : EditorWindow
         wnd.Show();
     }
 
+    void CreateGUI()
+    {
+        const string defaultTheme = "Packages/com.unity.dt.app-ui/PackageResources/Styles/Themes/App UI.tss";
+        rootVisualElement.styleSheets.Add(AssetDatabase.LoadAssetAtPath<ThemeStyleSheet>(defaultTheme));
+        rootVisualElement.AddToClassList("unity-editor"); // Enable Editor related styles
+    }
+
     private void OnEnable()
     {
         var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/CardBuilder.uxml");
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/CardBuilder.uss");
+        var theme = AssetDatabase.LoadAssetAtPath<ThemeStyleSheet>(k_DefaultTheme);
+        Debug.Log(styleSheet);
         var root = rootVisualElement;
+        // Panel panel = new Panel
+        // {
+        //     theme = m_CurrentTheme,
+        //     scale = m_CurrentScale,
+        //     layoutDirection = m_CurrentLayoutDirection,
+        //     lang = m_CurrentLocaleId
+        // };
+        // panel.AddToClassList("unity-editor");
+        root.AddToClassList("unity-editor");
+
+        // root.Add(panel);
+
+        // VisualElement visualElement = base.rootVisualElement;
+
+        // root.Add(visualElement);
+
+
+        // Clear existing content
+        // root.Clear();
+
+        // // Create App UI Panel as the root container - this provides theme context
+        // var appPanel = new Panel();
+        // appPanel.name = "app-ui-root";
+        // appPanel.style.flexGrow = 1;
+        // root.Add(appPanel);
+        root.styleSheets.Add(
+                    AssetDatabase.LoadAssetAtPath<StyleSheet>(AssetDatabase.GUIDToAssetPath("b763f743b4824058b4e329c1a2592529")));
 
         // Load and apply styles
-        visualTree.CloneTree(root);
-        if (styleSheet != null) root.styleSheets.Add(styleSheet);
+        if (visualTree != null)
+        {
+            visualTree.CloneTree(root);
+        }
+
+        if (styleSheet != null)
+        {
+            root.styleSheets.Add(styleSheet);
+        }
+
+
 
         // Get references to UI elements
         _cardNameField = root.Q<TextField>("CardNameField");
@@ -54,7 +119,7 @@ public class CardBuilderEditor : EditorWindow
         _saveButton = root.Q<Button>("SaveCardButton");
 
         // Set EnumField default value
-        _suitField.Init(Suit.Hearts);
+        // _suitField.defaultValue = Suit.Hearts;
         _suitField.value = Suit.Hearts;
 
         // Configure ObjectFields for sprite selection
